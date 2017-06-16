@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+
+<mapper namespace="openobj.user">
+
+<resultMap type="com.openobj.kr.service.usermanage.UserVo" id="UserVO" autoMapping="true">
+	<result property="index" column="index" />
+	<result property="PNUMBER" column="PNUMBER" />
+	<result property="USERNAME" column="USERNAME" />
+	<result property="PASSWORD" column="PASSWORD" />
+	<result property="PHONENUM" column="PHONENUM" />
+</resultMap>
+ 
+<select id="getUserList" resultMap="UserVO">
+	SELECT * 
+	FROM USER
+</select> 
+
+</mapper>
