@@ -9,4 +9,6 @@ import com.openobj.kr.model.UserVo;
 @Service
 public interface UserSrvcImpl {
 	public List<UserVo> getUserList();
+	public void userInsert(UserVo user);
+	public void userDelete(List<String> idx);
 }

@@ -17,18 +17,27 @@ public class UserDao implements UserDaoImpl {
 	
 	private String namespace = "openobj.user";
 	
-	@SuppressWarnings("unchecked")
 	@Override
 	public List<UserVo> getUserList() {
 		List<UserVo> usrList = new ArrayList<UserVo>();
 		usrList = sqlsession.selectList(namespace+".getUserList");
+		/* test values
 		UserVo exam = new UserVo(0,"example","example","example","example");
 		UserVo user01 = new UserVo(1,"pnumber","username","password","phonenum");
 		
 		usrList.add(exam);
 		usrList.add(user01);
-		
+		*/
 		return usrList;
 	}
-
+	
+	@Override
+	public void userInsert(UserVo user){
+		sqlsession.insert(namespace+".userInsert", user);
+	}
+	
+	@Override
+	public void userDelete(String idx){
+		sqlsession.insert(namespace+".userDelete", idx);
+	}
 }

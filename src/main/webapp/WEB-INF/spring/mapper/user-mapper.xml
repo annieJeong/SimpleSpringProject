@@ -3,7 +3,7 @@
 
 <mapper namespace="openobj.user">
 
-<resultMap type="com.openobj.kr.service.usermanage.UserVo" id="UserVO" autoMapping="true">
+<resultMap type="com.openobj.kr.model.UserVo" id="UserVO" autoMapping="true">
 	<result property="index" column="index" />
 	<result property="PNUMBER" column="PNUMBER" />
 	<result property="USERNAME" column="USERNAME" />
@@ -14,6 +14,14 @@
 <select id="getUserList" resultMap="UserVO">
 	SELECT * 
 	FROM USER
-</select> 
+</select>
+
+<insert id="userInsert" parameterType="com.openobj.kr.model.UserVo">
+	INSERT INTO USER VALUES( NULL, #[PNUMBER], #[USERNAME], #[PASSWORD], #[PHONENUM]);
+</insert>
+
+<delete id="userDelete" parameterType="com.openobj.kr.model.UserVo">
+	DELETE USER WHERE ( index = #[index]);
+</delete>
 
 </mapper>

@@ -9,4 +9,6 @@ import com.openobj.kr.model.UserVo;
 @Repository
 public interface UserDaoImpl {
 	public List<UserVo> getUserList();
+	public void userInsert(UserVo user);
+	public void userDelete(String idx);
 }
