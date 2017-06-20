@@ -17,11 +17,14 @@
 </select>
 
 <insert id="userInsert" parameterType="com.openobj.kr.model.UserVo">
-	INSERT INTO USER VALUES( NULL, #[PNUMBER], #[USERNAME], #[PASSWORD], #[PHONENUM]);
+	INSERT INTO USER (PNUMBER, USERNAME, PASSWORD, PHONENUM)
+	VALUES( #{PNUMBER}, #{USERNAME}, #{PASSWORD}, #{PHONENUM})
 </insert>
 
 <delete id="userDelete" parameterType="com.openobj.kr.model.UserVo">
-	DELETE USER WHERE ( index = #[index]);
+	DELETE
+	FROM USER
+	WHERE USER.index = #{index}
 </delete>
 
 </mapper>

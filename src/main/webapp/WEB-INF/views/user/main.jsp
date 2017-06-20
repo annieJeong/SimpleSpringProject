@@ -59,11 +59,14 @@ function userDel(){
 		dataType:"json",
 		data:{"index" : delNum},
 		success : function(resData){
-			alert(resData.result+"");
+			if(resData.result == "success"){
+				alert("삭제완료.");
+				location.reload();
+			}
 		},
 		error : function(){
 			alert("error");
-			//location.reload();
+			location.reload();
 		}
 			
 	});

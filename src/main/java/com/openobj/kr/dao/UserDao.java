@@ -37,7 +37,7 @@ public class UserDao implements UserDaoImpl {
 	}
 	
 	@Override
-	public void userDelete(String idx){
+	public void userDelete(int idx){
 		sqlsession.insert(namespace+".userDelete", idx);
 	}
 }

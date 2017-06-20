@@ -36,7 +36,7 @@ public class UserSrvc implements UserSrvcImpl {
 		// TODO Auto-generated method stub
 		for(int i=0; i<idx.size(); i++){
 			logger.debug("userDelete"+idx.get(i));
-			usrDao.userDelete(idx.get(i));
+			usrDao.userDelete( Integer.parseInt(idx.get(i)) );
 		}
 	}
 

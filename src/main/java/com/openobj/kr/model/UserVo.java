@@ -8,6 +8,13 @@ public class UserVo {
 	private String PASSWORD;
 	private String PHONENUM;
 	
+	public UserVo(String pNUMBER, String uSERNAME, String pASSWORD, String pHONENUM) {
+		PNUMBER = pNUMBER;
+		USERNAME = uSERNAME;
+		PASSWORD = pASSWORD;
+		PHONENUM = pHONENUM;
+	}
+	
 	public UserVo(int index, String pNUMBER, String uSERNAME, String pASSWORD, String pHONENUM) {
 		this.index = index;
 		PNUMBER = pNUMBER;

@@ -29,16 +29,19 @@ $(document).ready(function(){
 		};
 		
 		$.ajax({
-			url:"/user/insert/ajax",
+			url:"/user/insert.ajax",
 			type:"POST",
 			dataType:"json",
 			data:formData,
 			success : function(resData){
-				alert(resData.result+"");
+				if (resData.result == "success"){
+					alert("추가되었습니다.");
+					location.href="/user";
+				}
 			},
 			error : function(e){
 				alert("error");
-				//location.reload();
+				location.reload();
 			}
 		});
 	});

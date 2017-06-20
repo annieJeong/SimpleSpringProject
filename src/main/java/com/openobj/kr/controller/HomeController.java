@@ -65,8 +65,7 @@ public class HomeController {
 		return mav;
 	}
 	
-	@SuppressWarnings("null")
-	@RequestMapping(value = "/user/insert/ajax", method=RequestMethod.POST)
+	@RequestMapping(value = "/user/insert.ajax", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String,String> userInsert(
 			@RequestParam("pNumber") String pNumber,
@@ -74,23 +73,23 @@ public class HomeController {
 			@RequestParam("passWord") String passWord,
 			@RequestParam("phoneNum") String phoneNum
 			){
-		logger.info("newbi Insert ajax"+pNumber+"/"+userName+"/"+passWord+"/"+phoneNum);
+		logger.info("newbi Insert ajax:"+pNumber+"/"+userName+"/"+passWord+"/"+phoneNum);
 		Map<String,String> resData = new HashMap<String,String>();
 		try{
-			UserVo user = new UserVo((Integer) null, pNumber, userName, passWord, phoneNum);
+			UserVo user = new UserVo(pNumber, userName, passWord, phoneNum);
 			
 			usrSrvc.userInsert(user);
 			
 			resData.put("result","success");
 		} catch(Exception e){
+			e.printStackTrace();
 			resData.put("result","fail");
 		}
 		return resData;
 	}
 	@RequestMapping(value = "/user/del.ajax", method=RequestMethod.POST)
 	public @ResponseBody Map<String,String> userDel( @RequestParam("index[]") List<String> idx){
-		logger.info("delete ajax"+idx);
-		logger.info(idx.get(0)+"/");
+		logger.info("delete ajax : "+idx);
 		//idx만큼 delete되어야함.
 		Map<String,String> resData = new HashMap<String,String>();
 		try{
