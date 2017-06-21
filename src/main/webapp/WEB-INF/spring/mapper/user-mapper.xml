@@ -12,19 +12,72 @@
 </resultMap>
  
 <select id="getUserList" resultMap="UserVO">
-	SELECT * 
-	FROM USER
+	<![CDATA[
+		SELECT * 
+		FROM USER
+	]]>
+</select>
+
+<select id="getUserListIDX" resultMap="UserVO" parameterType="hashmap">
+	<![CDATA[
+		SELECT 
+			A.index,
+		    A.PNUMBER,
+		    A.USERNAME,
+		    A.PASSWORD,
+		    A.PHONENUM
+		FROM (
+			SELECT 
+				@ROWNUM := @ROWNUM + 1 AS RNUM,
+				a.* 
+			FROM USER a,
+			(SELECT @ROWNUM := 0) b
+		)A
+		WHERE A.RNUM <= #{maxNum}
+		AND A.RNUM > #{minNum}
+	]]>
+</select>
+
+<select id="getUserCnt" resultType="int">
+	<![CDATA[
+		SELECT COUNT(*)
+		FROM USER
+	]]>
+</select>
+
+<select id="getUser" resultMap="UserVO">
+	<![CDATA[
+		SELECT *
+		FROM USER
+		WHERE USER.index = #{index}
+	]]>
 </select>
 
 <insert id="userInsert" parameterType="com.openobj.kr.model.UserVo">
-	INSERT INTO USER (PNUMBER, USERNAME, PASSWORD, PHONENUM)
-	VALUES( #{PNUMBER}, #{USERNAME}, #{PASSWORD}, #{PHONENUM})
+	<![CDATA[
+		INSERT INTO USER (PNUMBER, USERNAME, PASSWORD, PHONENUM)
+		VALUES( #{PNUMBER}, #{USERNAME}, #{PASSWORD}, #{PHONENUM})
+	]]>
 </insert>
 
 <delete id="userDelete" parameterType="com.openobj.kr.model.UserVo">
-	DELETE
-	FROM USER
-	WHERE USER.index = #{index}
+	<![CDATA[
+		DELETE
+		FROM USER
+		WHERE USER.index = #{index}
+	]]>
 </delete>
+
+<update id="userUpdt" parameterType="com.openobj.kr.model.UserVo">
+	<![CDATA[
+		UPDATE USER
+		SET 
+			PNUMBER = #{PNUMBER},
+			USERNAME = #{USERNAME},
+			PASSWORD = #{PASSWORD},
+			PHONENUM = #{PHONENUM}
+		WHERE USER.index = #{index}
+	]]>
+</update>
 
 </mapper>

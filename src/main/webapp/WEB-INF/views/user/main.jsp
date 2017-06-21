@@ -33,6 +33,25 @@ $(document).ready(function(){
 			alert("선택된 사용자가 없습니다.");
 		}
 	});
+	/*
+	$('tr[id^=user]').on('click',function(){ //상세보기 페이지
+		var clickNum = $(this).children().eq(0).text();
+		location.href="/user/detail?index="+clickNum;
+	});
+	*/
+	//상세보기 페이지 체크박스 제거 하기위한 클래스 생성
+	$('.clkTd').on('click',function(){ 
+		var parent = $(this).parent();
+		var clickNum = parent.children().eq(0).text();
+		location.href="/user/detail?index="+clickNum;
+	});
+	
+	$('.gotoPage').on('click',function(){
+		var page = $(this).text();
+		console.log("page :"+page);
+		
+		location.href="/user.ajax?page="+page;
+	});
 });
 
 function setPop(msg){
@@ -84,7 +103,7 @@ function userDel(){
 		<table>
 			<thead>
 				<tr>
-					<td colspan="5" align="center"><h3>user List</h3></td>
+					<td colspan="6" align="center"><h3>user List</h3></td>
 				</tr>
 			</thead>
 			<tbody>
@@ -97,14 +116,21 @@ function userDel(){
 				</tr>
 				<c:forEach items="${userList}" var="i" varStatus="stat">
 					<tr id="user${stat.index}">
-						<td>${i.index}</td>
-						<td>${i.PNUMBER}</td>
-						<td>${i.USERNAME}</td>
-						<td>${i.PASSWORD}</td>
-						<td>${i.PHONENUM}</td>
+						<td class="clkTd">${i.index}</td>
+						<td class="clkTd">${i.PNUMBER}</td>
+						<td class="clkTd">${i.USERNAME}</td>
+						<td class="clkTd">${i.PASSWORD}</td>
+						<td class="clkTd">${i.PHONENUM}</td>
 						<td><input type="checkbox" name="chkBtnUsr" value="${i.index }"></td>
 					</tr>
 				</c:forEach>
+				<c:if test="${idx > 0}">
+					<tr>
+						<c:forEach begin="1" end="${idx}" step="1" var="i">
+							<td class="gotoPage">${i}</td>
+						</c:forEach>
+					</tr>
+				</c:if>
 				<tr>
 					<td><button id="btnUsrInsert">insert</button></td>
 					<td><button id="btnUsrDel">delete</button></td>

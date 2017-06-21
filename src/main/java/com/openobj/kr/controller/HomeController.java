@@ -31,6 +31,7 @@ public class HomeController {
 	
 	@Autowired
 	private UserSrvc usrSrvc = new UserSrvc();
+	
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
@@ -48,15 +49,60 @@ public class HomeController {
 		return "home";
 	}
 	
+	/**
+	 * 메인 Page
+	 * @return ModelAndView
+	 */
 	@RequestMapping(value = "/user")
 	public ModelAndView userListPage(){
 		logger.info("usermain");
 		ModelAndView mav = new ModelAndView("/user/main");
-		mav.addObject("userList", usrSrvc.getUserList());
-		
+		//0621 페이징 처리 추가
+		HashMap<String, String> scope = new HashMap<String, String>();
+		scope.put("minNum", "0");
+		scope.put("maxNum", "10");
+		mav.addObject("userList", usrSrvc.getUserList(scope));
+		//count 추가
+		int pageCnt = usrSrvc.getUserCnt();
+		double ceilVal = (double)pageCnt/10;
+		pageCnt = (int) Math.ceil(ceilVal);
+		mav.addObject("idx",pageCnt);
+		System.out.println("mainPage Objects pageCnt "+pageCnt);
 		return mav;
 	}
 	
+	/**
+	 * 페이징 처리 기능추가
+	 * @param page
+	 * @return
+	 */
+	@RequestMapping(value="/user.ajax", method=RequestMethod.GET)
+	public ModelAndView userListPageAjax(
+			@RequestParam("page") int page
+			){
+		ModelAndView mav = new ModelAndView("/user/main");
+		int min = 0, max=0;
+		
+		max = page*10;
+		min = max-10;
+		
+		HashMap<String, String> scope = new HashMap<String, String>();
+		scope.put("minNum", min+"");
+		scope.put("maxNum", max+"");
+		mav.addObject("userList", usrSrvc.getUserList(scope));
+		//count 추가
+		int pageCnt = usrSrvc.getUserCnt();
+		double ceilVal = (double)pageCnt/10;
+		pageCnt = (int) Math.ceil(ceilVal);
+		mav.addObject("idx",pageCnt);
+		System.out.println("mainPage Objects pageCnt "+pageCnt);
+		return mav;
+	}
+	
+	/**
+	 * 추가 Page
+	 * @return ModelAndView
+	 */
 	@RequestMapping(value = "/user/insert")
 	public ModelAndView userInsertPage(){
 		logger.info("newbi Insert page");
@@ -65,6 +111,14 @@ public class HomeController {
 		return mav;
 	}
 	
+	/**
+	 * 추가 AJAX
+	 * @param pNumber
+	 * @param userName
+	 * @param passWord
+	 * @param phoneNum
+	 * @return Map<String,String>
+	 */
 	@RequestMapping(value = "/user/insert.ajax", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String,String> userInsert(
@@ -87,6 +141,11 @@ public class HomeController {
 		}
 		return resData;
 	}
+	/***
+	 * 삭제 AJAX
+	 * @param idx
+	 * @return Map<String,String>
+	 */
 	@RequestMapping(value = "/user/del.ajax", method=RequestMethod.POST)
 	public @ResponseBody Map<String,String> userDel( @RequestParam("index[]") List<String> idx){
 		logger.info("delete ajax : "+idx);
@@ -97,6 +156,50 @@ public class HomeController {
 			
 			resData.put("result","success");
 		}catch(Exception e){
+			resData.put("result","fail");
+		}
+		return resData;
+	}
+	
+	/**
+	 * 상세페이지 
+	 * @param idx
+	 * @return ModelAndView
+	 */
+	@RequestMapping(value="/user/detail", method=RequestMethod.GET)
+	public ModelAndView userDetail( @RequestParam("index") String idx){
+		ModelAndView mav = new ModelAndView("/user/detail");
+		
+		// 1명 조회 -> UserVo add
+		UserVo user = usrSrvc.getUser(Integer.parseInt(idx));
+		mav.addObject("user",user);
+		return mav;
+	}
+	
+	/***
+	 * 삭제 AJAX
+	 * @param idx
+	 * @return Map<String,String>
+	 */
+	@RequestMapping(value = "/user/update.ajax", method=RequestMethod.POST)
+	public @ResponseBody Map<String,String> userUpdt(
+			@RequestParam("index") String idx,
+			@RequestParam("pNumber") String pNumber,
+			@RequestParam("userName") String userName,
+			@RequestParam("passWord") String passWord,
+			@RequestParam("phoneNum") String phoneNum
+			){
+		logger.info("update ajax : "+idx);
+		//idx만큼 delete되어야함.
+		Map<String,String> resData = new HashMap<String,String>();
+		try{
+			UserVo user = new UserVo(Integer.parseInt(idx),pNumber,userName,passWord,phoneNum);
+			
+			usrSrvc.userUpdt(user);
+			
+			resData.put("result","success");
+		}catch(Exception e){
+			e.printStackTrace();
 			resData.put("result","fail");
 		}
 		return resData;

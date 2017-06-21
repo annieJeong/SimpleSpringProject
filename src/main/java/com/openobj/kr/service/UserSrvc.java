@@ -1,5 +1,6 @@
 package com.openobj.kr.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -21,8 +22,8 @@ public class UserSrvc implements UserSrvcImpl {
 	private UserDao usrDao = new UserDao();
 	
 	@Override
-	public List<UserVo> getUserList() {
-		return usrDao.getUserList();
+	public List<UserVo> getUserList(HashMap<String, String> scope) {
+		return usrDao.getUserList(scope);
 	}
 
 	@Override
@@ -40,4 +41,21 @@ public class UserSrvc implements UserSrvcImpl {
 		}
 	}
 
+	@Override
+	public UserVo getUser(int idx) {
+		// TODO Auto-generated method stub
+		return usrDao.getUser(idx);
+	}
+
+	@Override
+	public void userUpdt(UserVo user) {
+		// TODO Auto-generated method stub
+		usrDao.userUpdt(user);
+	}
+
+	@Override
+	public int getUserCnt() {
+		// TODO Auto-generated method stub
+		return usrDao.getUserCnt();
+	}
 }
