@@ -63,11 +63,7 @@ public class HomeController {
 		scope.put("maxNum", "10");
 		mav.addObject("userList", usrSrvc.getUserList(scope));
 		//count 추가
-		int pageCnt = usrSrvc.getUserCnt();
-		double ceilVal = (double)pageCnt/10;
-		pageCnt = (int) Math.ceil(ceilVal);
-		mav.addObject("idx",pageCnt);
-		System.out.println("mainPage Objects pageCnt "+pageCnt);
+		mav.addObject("idx",getUserPageCnt());
 		return mav;
 	}
 	
@@ -91,12 +87,20 @@ public class HomeController {
 		scope.put("maxNum", max+"");
 		mav.addObject("userList", usrSrvc.getUserList(scope));
 		//count 추가
+		mav.addObject("idx",getUserPageCnt());
+		return mav;
+	}
+	
+	/**
+	 * 페이지 카운트 계산
+	 * @return int
+	 */
+	private int getUserPageCnt(){
 		int pageCnt = usrSrvc.getUserCnt();
 		double ceilVal = (double)pageCnt/10;
 		pageCnt = (int) Math.ceil(ceilVal);
-		mav.addObject("idx",pageCnt);
-		System.out.println("mainPage Objects pageCnt "+pageCnt);
-		return mav;
+		
+		return pageCnt;
 	}
 	
 	/**
@@ -141,6 +145,7 @@ public class HomeController {
 		}
 		return resData;
 	}
+	
 	/***
 	 * 삭제 AJAX
 	 * @param idx
