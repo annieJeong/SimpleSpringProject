@@ -8,18 +8,19 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.openobj.kr.controller.HomeController;
+import com.openobj.kr.controller.UserController;
 import com.openobj.kr.dao.UserDao;
+import com.openobj.kr.dao.UserDaoImpl;
 import com.openobj.kr.model.UserVo;
 
 @Service
 public class UserSrvc implements UserSrvcImpl {
 
 	@Autowired
-	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
+	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 	
 	@Autowired
-	private UserDao usrDao = new UserDao();
+	private UserDaoImpl usrDao = new UserDao();
 	
 	@Override
 	public List<UserVo> getUserList(HashMap<String, String> scope) {

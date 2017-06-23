@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+
+<mapper namespace="openobj.board">
+
+<resultMap type="com.openobj.kr.model.BoardVo" id="BoardVo" autoMapping="true">
+	<result property="BOARD_IDX" column="BOARD_IDX" />
+	<result property="BOARD_TITLE" column="BOARD_TITLE" />
+	<result property="BOARD_STR" column="BOARD_STR" />
+	<result property="BOARD_SETDATE" column="BOARD_SETDATE" />
+	<result property="BOARD_UPDATE" column="BOARD_UPDATE" />
+	<result property="BOARD_USRNAME" column="BOARD_USRNAME" />
+</resultMap>
+ 
+<select id="getBoardList" resultMap="BoardVo">
+	<![CDATA[
+		SELECT * 
+		FROM BOARD
+	]]>
+</select>
+
+<select id="getBoard" resultMap="BoardVo">
+	<![CDATA[
+		SELECT * 
+		FROM BOARD
+		WHERE BOARD.BOARD_IDX = #{BOARD_IDX}
+	]]>
+</select>
+
+<select id="getBoardCnt" resultType="int">
+	<![CDATA[
+		SELECT COUNT(*)
+		FROM BOARD
+	]]>
+</select>
+
+<insert id="boardInsert" parameterType="com.openobj.kr.model.BoardVo">
+	<![CDATA[
+		INSERT INTO BOARD (BOARD_TITLE, BOARD_STR, BOARD_SETDATE, BOARD_UPDATE, BOARD_USRNAME)
+		VALUES ( 
+			#{BOARD_TITLE},
+			#{BOARD_STR}, 
+			curdate()+"",
+			curdate()+"",
+			#{BOARD_USRNAME}
+		) 
+	]]>
+</insert>
+
+<delete id="boardDelete" parameterType="int">
+	<![CDATA[
+		DELETE
+		FROM BOARD
+		WHERE BOARD.BOARD_IDX = #{BOARD_IDX}
+	]]>
+</delete>
+
+<update id="boardUpdt" parameterType="com.openobj.kr.model.BoardVo">
+	<![CDATA[
+		UPDATE BOARD
+		SET
+			BOARD_TITLE = #{BOARD_TITLE},
+			BOARD_STR = #{BOARD_STR},
+			BOARD_UPDATE = curdate()+"",
+			BOARD_USRNAME = #{BOARD_USRNAME}
+		WHERE BOARD.BOARD_IDX = #{BOARD_IDX}
+	]]>
+</update>
+
+</mapper>

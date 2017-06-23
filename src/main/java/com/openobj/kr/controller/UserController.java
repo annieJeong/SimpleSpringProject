@@ -20,17 +20,18 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.openobj.kr.model.UserVo;
 import com.openobj.kr.service.UserSrvc;
+import com.openobj.kr.service.UserSrvcImpl;
 
 /**
  * Handles requests for the application home page.
  */
 @Controller
-public class HomeController {
+public class UserController {
 	@Autowired
-	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
+	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 	
 	@Autowired
-	private UserSrvc usrSrvc = new UserSrvc();
+	private UserSrvcImpl usrSrvc = new UserSrvc();
 	
 	/**
 	 * Simply selects the home view to render by returning its name.
