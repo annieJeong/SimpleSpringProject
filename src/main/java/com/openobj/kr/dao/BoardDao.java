@@ -38,8 +38,8 @@ public class BoardDao implements BoardDaoImpl {
 		sqlsession.insert(namespace+".boardInsert", board);
 	}
 	
-	public void delBoard(int idx){
-		sqlsession.delete(namespace+".boardDelete", idx);
+	public void delBoard(BoardVo board){
+		sqlsession.delete(namespace+".boardDelete", board);
 	}
 
 	@Override

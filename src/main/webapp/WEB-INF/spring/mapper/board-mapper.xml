@@ -47,7 +47,7 @@
 	]]>
 </insert>
 
-<delete id="boardDelete" parameterType="int">
+<delete id="boardDelete" parameterType="com.openobj.kr.model.BoardVo">
 	<![CDATA[
 		DELETE
 		FROM BOARD

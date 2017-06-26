@@ -59,4 +59,31 @@ public class UserSrvc implements UserSrvcImpl {
 		// TODO Auto-generated method stub
 		return usrDao.getUserCnt();
 	}
+
+	@Override
+	public boolean userChk(String id, String pw) {
+		// TODO Auto-generated method stub
+		UserVo user = new UserVo();
+		user.setID(id);
+		
+		String chkPwd = usrDao.getUserPw(user);
+		
+		logger.info("userChk : input password :" + pw + "/ DB password :" + chkPwd);
+		if ( chkPwd != null && chkPwd.equals(pw)){
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public UserVo getUserAfter(String id, String pw) {
+		UserVo setUser = new UserVo();
+		
+		setUser.setID(id);
+		setUser.setPASSWORD(pw);
+		
+		UserVo resultUser = usrDao.getUserAfter(setUser);
+		
+		return resultUser;
+	}
 }

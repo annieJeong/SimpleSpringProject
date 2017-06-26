@@ -11,17 +11,26 @@ $(document).ready(function(){
 	$('#gotomain').on('click',function(){
 		location.href="/user";
 	});
+	
+	$('#btnChkOverlap').on('click',function(e){
+		e.preventDefault();
+		alert("id중복확인 // 미개발");
+		$('input[name=ID]').attr("chk","true");
+	});
+	
 	$('#btnInsert').on('click',function(){
 		if (!valCheck()){
 			alert("입력값을 확인해 주세요.");
 			return false;
 		}
 		
+		var id = $('input[name="ID"]').val();
 		var pNumber = $('input[name="PNumber"]').val();
 		var userName = $('input[name="UserName"]').val();
 		var password = $('input[name="Password"]').val();
 		var phoneNum = $('input[name="PhoneNum"]').val();
 		var formData = {
+			"id":id,				
 			"pNumber":pNumber,
 			"userName":userName,
 			"passWord":password,
@@ -41,17 +50,29 @@ $(document).ready(function(){
 			},
 			error : function(e){
 				alert("error");
-				location.reload();
+				location.href="/user";
 			}
 		});
 	});
 });
 
 function valCheck(){
+	var id = $('input[name="ID"]').val();
 	var pNumber = $('input[name="PNumber"]').val();
 	var userName = $('input[name="UserName"]').val();
 	var password = $('input[name="Password"]').val();
 	var phoneNum = $('input[name="PhoneNum"]').val();
+	
+	//ID
+	if(id.length <= 0){ //입력된 값이 없을경우
+		return false;
+	} else if (id.trim().length <= 0){ //입력된 값이 공백인 경우
+		return false;
+	}
+	if($('input[name="ID"]').attr("chk") != "true"){
+		//중복체크 안함
+		return false;
+	}
 	
 	//고객번호
 	if(pNumber.length <= 0){ //입력된 값이 없을경우
@@ -87,6 +108,9 @@ function valCheck(){
 <body>
 <form action="" id="insertForm" method="post">
 	<table>
+		<tr>
+			<td>ID : <input type="text" name="ID" chk="false"><button id="btnChkOverlap">중복확인</button></td>
+		</tr>
 		<tr>
 			<td>고객번호 : <input type="text" name="PNumber"></td>
 		</tr>

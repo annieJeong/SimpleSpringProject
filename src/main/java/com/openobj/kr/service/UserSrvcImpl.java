@@ -16,4 +16,6 @@ public interface UserSrvcImpl {
 	public UserVo getUser(int idx);
 	public void userUpdt(UserVo user);
 	public int getUserCnt();
+	public boolean userChk(String id, String pw);
+	public UserVo getUserAfter(String id, String pw);
 }

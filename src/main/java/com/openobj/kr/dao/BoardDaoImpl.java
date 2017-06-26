@@ -12,6 +12,6 @@ public interface BoardDaoImpl {
 	public BoardVo getBoard(int idx);
 	public int getBoardCnt();
 	public void boardInsert(BoardVo board);
-  	public void delBoard(int idx);
+  	public void delBoard(BoardVo board);
   	public void boardUpdt(BoardVo board);
 }

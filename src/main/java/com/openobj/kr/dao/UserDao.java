@@ -63,4 +63,14 @@ public class UserDao implements UserDaoImpl {
 	public int getUserCnt(){
 		return sqlsession.selectOne(namespace+".getUserCnt");
 	}
+
+	@Override
+	public String getUserPw(UserVo user) {
+		return sqlsession.selectOne(namespace+".getUserPw", user);
+	}
+
+	@Override
+	public UserVo getUserAfter(UserVo user) {
+		return sqlsession.selectOne(namespace+".getUserAfterLogin", user);
+	}
 }

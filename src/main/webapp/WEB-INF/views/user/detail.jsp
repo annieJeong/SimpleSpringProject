@@ -12,14 +12,32 @@ $(document).ready(function(){
 		location.href="/user";
 	});
 	$('#btnShowUpdt').on('click',function(){
-		$('#btnUpdt').show();
+		$('#btnUpdt, #btnChkOverlap').show();
 		$(this).hide();
 		$('input[type=text]').removeAttr("readonly");
 	});
-	
+	$('#btnChkOverlap').on('click',function(){
+		alert("ID중복체크 // 미개발");
+		$('input[name=ID]').attr("chk","true");
+	});
 	$('#btnUpdt').on('click',function(){
+		var valChk = validation();
+		if (valChk != 0){
+			var alertStr = "";
+			if (valChk == 1){
+				alertStr = "입력값을 확인해주세요.";
+			}else if (valChk == 2){
+				alertStr = "공백만 입력 불가능합니다.";
+			}else if (valChk == 3){
+				alertStr = "ID중복을 확인해주세요.";
+			}
+			alert(alertStr);
+			return false;
+		}
+		
 		var formData = {
 			"index": <c:out value="${user.index}"></c:out>,
+			"id":$('input[name=ID]').val(),
 			"pNumber":$('input[name=PNumber]').val(),
 			"userName":$('input[name=UserName]').val(),
 			"passWord":$('input[name=Password]').val(),
@@ -45,6 +63,54 @@ $(document).ready(function(){
 	
 });
 
+function validation(){
+	var chkID = $('input[name=ID]');
+	var chkPNum = $('input[name=PNumber]').val();
+	var chkUsrName = $('input[name=UserName]').val();
+	var chkPW = $('input[name=Password]').val();
+	var chkPhNum = $('input[name=PhoneNum]').val();
+	//ID
+	if (chkID.attr("chk") != "true"){ //ID중복체크
+		return 3;
+	}
+	
+	if(chkID.val().length <= 0){ //입력값 없음
+		return 1;
+	} else if (chkID.val().trim().length <= 0){ //입력한 값이 공백
+		return 2;
+	}
+	
+	//PNUMBER
+	if(chkPNum.length <= 0){ //입력값 없음
+		return 1;
+	} else if (chkPNum.trim().length <= 0){ //입력한 값이 공백
+		return 2;
+	}
+	
+	//USERNAME
+	if(chkUsrName.length <= 0){ //입력값 없음
+		return 1;
+	} else if (chkUsrName.trim().length <= 0){ //입력한 값이 공백
+		return 2;
+	}
+	
+	//PASSWORD
+	if(chkPW.length <= 0){ //입력값 없음
+		return 1;
+	} else if (chkPW.trim().length <= 0){ //입력한 값이 공백
+		return 2;
+	}
+	
+	//PHONENUM
+	if(chkPhNum.length <= 0){ //입력값 없음
+		return 1;
+	} else if (chkPhNum.trim().length <= 0){ //입력한 값이 공백
+		return 2;
+	}
+	
+	return 0;
+}
+
 </script>
 </head>
 <body>
@@ -52,6 +118,9 @@ $(document).ready(function(){
 	<table>
 		<tr>
 			<td>index : <c:out value="${user.index}"></c:out></td>
+		</tr>
+		<tr>
+			<td>ID : <input type="text" name="ID" readonly value="${user.ID }" chk="false"><button id="btnChkOverlap" style="display:none;">중복확인</button></td>
 		</tr>
 		<tr>
 			<td>고객번호 : <input type="text" name="PNumber" readonly value="${user.PNUMBER }"></td>

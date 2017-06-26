@@ -46,7 +46,9 @@ public class BoardSrvc implements BoardSrvcImpl {
 	@Override
 	public void boardDelete(String idx) {
 		// TODO Auto-generated method stub
-		boardDao.delBoard(Integer.parseInt(idx));
+		BoardVo board = new BoardVo();
+		board.setBOARD_IDX(Integer.parseInt(idx));
+		boardDao.delBoard(board);
 	}
 
 	@Override

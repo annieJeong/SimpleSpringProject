@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page session = "true" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -19,9 +20,11 @@ $(document).ready(function(){
 		
 		var title = $('input[name="title"]').val();
 		var txt = $('textarea[name="txt"]').val();
+		var user = "${USER.USERNAME}";
 		var formData = {
 			"title":title,
-			"txt":txt
+			"txt":txt,
+			"user":user
 		};
 		
 		$.ajax({

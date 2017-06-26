@@ -45,12 +45,13 @@ public class BoardController {
 	@ResponseBody
 	public Map<String,String> boardInsertAjax(
 			@RequestParam("title") String title,
-			@RequestParam("txt") String txt
+			@RequestParam("txt") String txt,
+			@RequestParam("user") String user
 			){
 		logger.info("boardInsertAjax");
 		Map<String,String> result = new HashMap<String,String>();
 		try {
-			boardSrvc.boardInsert(title,txt,"ADMIN");
+			boardSrvc.boardInsert(title,txt,user);
 			result.put("result", "success");
 		} catch (Exception e){
 			e.printStackTrace();

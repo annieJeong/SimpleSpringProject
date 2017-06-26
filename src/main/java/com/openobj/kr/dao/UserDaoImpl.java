@@ -11,6 +11,8 @@ import com.openobj.kr.model.UserVo;
 public interface UserDaoImpl {
 //	public List<UserVo> getUserList();
 	public List<UserVo> getUserList(HashMap<String,String> scope);
+	public String getUserPw(UserVo user);
+	public UserVo getUserAfter(UserVo user);
 	public void userInsert(UserVo user);
 	public void userDelete(int idx);
 	public UserVo getUser(int idx);

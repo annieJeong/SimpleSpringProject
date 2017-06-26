@@ -1,12 +1,11 @@
 package com.openobj.kr.controller;
 
-import java.text.DateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,19 +37,41 @@ public class UserController {
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
-		logger.info("Welcome home! The client locale is {}.", locale);
-		
-		Date date = new Date();
-		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
-		
-		String formattedDate = dateFormat.format(date);
-		
-		model.addAttribute("serverTime", formattedDate );
+		logger.info("!!Login Page!! The client locale is {}.", locale);
 		
 		return "home";
 	}
 	
-	/**
+	@RequestMapping(value = "/login", method=RequestMethod.POST)
+	public String login(
+			HttpSession session,
+			@RequestParam("iptId") String id,
+			@RequestParam("iptPw") String pw,
+			Model model
+		){
+		logger.info("login info : "+id+"//"+pw);
+		// id 로 pw 검색 입력된 pw와 동일하면 session에 id,해당 username 저장
+		Map<String,String> result = new HashMap<String, String>();
+		if(usrSrvc.userChk(id, pw)){
+			UserVo sessUser = usrSrvc.getUserAfter(id, pw);
+			if (sessUser != null){
+				session.setAttribute("USER", sessUser);
+			}
+			model.addAttribute("result", "success");
+		} else {
+			model.addAttribute("result", "fail");
+		}
+		
+		return "redirect:/";
+	}
+	
+	@RequestMapping(value="/logout")
+	public String logout(HttpSession session){
+		session.removeAttribute("USER");
+		return "redirect:/";
+	}
+	
+	/**1258 8215
 	 * 메인 Page
 	 * @return ModelAndView
 	 */
@@ -127,6 +148,7 @@ public class UserController {
 	@RequestMapping(value = "/user/insert.ajax", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String,String> userInsert(
+			@RequestParam("id") String iD,
 			@RequestParam("pNumber") String pNumber,
 			@RequestParam("userName") String userName,
 			@RequestParam("passWord") String passWord,
@@ -135,7 +157,7 @@ public class UserController {
 		logger.info("newbi Insert ajax:"+pNumber+"/"+userName+"/"+passWord+"/"+phoneNum);
 		Map<String,String> resData = new HashMap<String,String>();
 		try{
-			UserVo user = new UserVo(pNumber, userName, passWord, phoneNum);
+			UserVo user = new UserVo(iD, pNumber, userName, passWord, phoneNum);
 			
 			usrSrvc.userInsert(user);
 			
@@ -190,6 +212,7 @@ public class UserController {
 	@RequestMapping(value = "/user/update.ajax", method=RequestMethod.POST)
 	public @ResponseBody Map<String,String> userUpdt(
 			@RequestParam("index") String idx,
+			@RequestParam("id") String iD,
 			@RequestParam("pNumber") String pNumber,
 			@RequestParam("userName") String userName,
 			@RequestParam("passWord") String passWord,
@@ -199,7 +222,7 @@ public class UserController {
 		//idx만큼 delete되어야함.
 		Map<String,String> resData = new HashMap<String,String>();
 		try{
-			UserVo user = new UserVo(Integer.parseInt(idx),pNumber,userName,passWord,phoneNum);
+			UserVo user = new UserVo(Integer.parseInt(idx), iD, pNumber,userName,passWord,phoneNum);
 			
 			usrSrvc.userUpdt(user);
 			

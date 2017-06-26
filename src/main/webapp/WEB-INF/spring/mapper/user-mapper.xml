@@ -5,6 +5,7 @@
 
 <resultMap type="com.openobj.kr.model.UserVo" id="UserVO" autoMapping="true">
 	<result property="index" column="index" />
+	<result property="ID" column="ID" />
 	<result property="PNUMBER" column="PNUMBER" />
 	<result property="USERNAME" column="USERNAME" />
 	<result property="PASSWORD" column="PASSWORD" />
@@ -22,6 +23,7 @@
 	<![CDATA[
 		SELECT 
 			A.index,
+			A.ID,
 		    A.PNUMBER,
 		    A.USERNAME,
 		    A.PASSWORD,
@@ -53,10 +55,19 @@
 	]]>
 </select>
 
+<select id="getUserAfterLogin" resultMap="UserVO" parameterType="com.openobj.kr.model.UserVo">
+	<![CDATA[
+		SELECT *
+		FROM USER
+		WHERE USER.ID = #{ID}
+		AND USER.PASSWORD = #{PASSWORD}
+	]]>
+</select>
+
 <insert id="userInsert" parameterType="com.openobj.kr.model.UserVo">
 	<![CDATA[
-		INSERT INTO USER (PNUMBER, USERNAME, PASSWORD, PHONENUM)
-		VALUES( #{PNUMBER}, #{USERNAME}, #{PASSWORD}, #{PHONENUM})
+		INSERT INTO USER (ID, PNUMBER, USERNAME, PASSWORD, PHONENUM)
+		VALUES( #{ID}, #{PNUMBER}, #{USERNAME}, #{PASSWORD}, #{PHONENUM})
 	]]>
 </insert>
 
@@ -72,6 +83,7 @@
 	<![CDATA[
 		UPDATE USER
 		SET 
+			ID = #{ID},
 			PNUMBER = #{PNUMBER},
 			USERNAME = #{USERNAME},
 			PASSWORD = #{PASSWORD},
@@ -80,4 +92,11 @@
 	]]>
 </update>
 
+<select id="getUserPw" resultType="String">
+	<![CDATA[
+		SELECT PASSWORD
+		FROM USER
+		WHERE USER.ID = #{ID}
+	]]>
+</select>
 </mapper>

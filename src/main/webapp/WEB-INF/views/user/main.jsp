@@ -52,6 +52,10 @@ $(document).ready(function(){
 		
 		location.href="/user.ajax?page="+page;
 	});
+	
+	$('#gotoMain').on('click',function(){
+		location.href="/";
+	});
 });
 
 function setPop(msg){
@@ -109,6 +113,7 @@ function userDel(){
 			<tbody>
 				<tr>
 					<td>INDEX</td>
+					<td>ID</td>
 					<td>PNUMBER</td>
 					<td>USERNAME</td>
 					<td>PASSWORD</td>
@@ -117,6 +122,7 @@ function userDel(){
 				<c:forEach items="${userList}" var="i" varStatus="stat">
 					<tr id="user${stat.index}">
 						<td class="clkTd">${i.index}</td>
+						<td class="clkTd">${i.ID}</td>
 						<td class="clkTd">${i.PNUMBER}</td>
 						<td class="clkTd">${i.USERNAME}</td>
 						<td class="clkTd">${i.PASSWORD}</td>
@@ -134,6 +140,7 @@ function userDel(){
 				<tr>
 					<td><button id="btnUsrInsert">insert</button></td>
 					<td><button id="btnUsrDel">delete</button></td>
+					<td><button id="gotoMain">main</button></td>
 				</tr>
 			</tbody>
 		</table>
